@@ -1,17 +1,17 @@
 from src.EdgeData import EdgeData
 class EdgeList:
 
-"""
-this is used for all in/out neigborh
-"""
+
+#this is used for all in/out neighbor
+
     def __init__(self):
         self.nodeNi={}
 
-    def addNi(self, e:EdgeData) ->None:
+    def addNi(self, key:int, w:float) ->None:
         if e is not None:
-            self.nodeNi[e.getDest().getKey()]= e.getWeight()
+            self.nodeNi[key]= w
 
-    def getWeight(self, k:int)->EdgeData:
+    def getWeight(self, k:int)->float:
         if self.hasEdge(k):
             return self.nodeNi.get(k)
         return None
