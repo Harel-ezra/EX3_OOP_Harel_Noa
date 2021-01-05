@@ -11,7 +11,6 @@ class DiGraph(GraphInterface):
         self.neighborsDest={}  # all is node that this node is there dest
         self.edgeSize=0
         self.MC=0
-        self.graph.
 
     def v_size(self) -> int:
         return len(self.graph)
