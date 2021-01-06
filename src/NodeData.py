@@ -7,6 +7,14 @@ class NodeData:
         self.info='x'
         self.g=gl
 
+    def __repr__(self):
+        return self.__str__()
+
+    def __str__(self) ->str:
+        s="{key: "+(str)(self.key)+", "+"pos: "+(str)(self.g)+"}"
+        return s
+
+
     def getKey(self) -> int:
         return self.key
 

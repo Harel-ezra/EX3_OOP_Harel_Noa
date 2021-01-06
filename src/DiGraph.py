@@ -1,5 +1,4 @@
 from src.GraphInterface import GraphInterface
-import EdgeList as EdgeList
 from src.NodeData import NodeData
 
 
@@ -12,6 +11,13 @@ class DiGraph(GraphInterface):
         self.edgeSize=0
         self.MC=0
 
+    def __str__(self)->str:
+        s=""
+        for n in self.graph:
+            s+=n.__str__()
+            s+=" "
+        return s
+
     def v_size(self) -> int:
         return len(self.graph)
 
@@ -23,12 +29,12 @@ class DiGraph(GraphInterface):
 
     def all_in_edges_of_node(self, id1: int) -> dict:
         if id1 in self.graph:
-           return self.neighborsSrc.get(id1)
+           return self.neighborsDest.get(id1)
         return {}
 
     def all_out_edges_of_node(self, id1: int) -> dict:
         if id1 in self.graph:
-           return self.neighborsDest.get(id1)
+           return self.neighborsSrc.get(id1)
         return {}
 
     def get_mc(self) -> int:
