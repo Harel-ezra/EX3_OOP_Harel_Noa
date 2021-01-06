@@ -1,12 +1,18 @@
 from typing import List
 
+from src import GraphInterface
+from src.DiGraph import DiGraph
 from src.GraphAlgoInterface import GraphAlgoInterface
-
+import heapq as queue
 
 class GraphAlgo(GraphAlgoInterface):
 
-    def load_from_json(self, file_name: str) -> bool:
-        pass
+    def __init__(self):
+        self.graph=DiGraph()
+
+    def get_graph(self) -> GraphInterface:
+        return self.graph
+
     def load_from_json(self, file_name: str) -> bool:
         pass
 
@@ -15,6 +21,12 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         pass
+
+    def Dijkstra(self):
+        q=queue()
+
+        pass
+
 
     def connected_component(self, id1: int) -> list:
         pass
