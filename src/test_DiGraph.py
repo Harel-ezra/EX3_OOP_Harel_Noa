@@ -1,7 +1,7 @@
 from unittest import TestCase
 from src.DiGraph import DiGraph
-
-
+import random as random
+random.seed(1)
 
 class TestDiGraph(TestCase):
 
@@ -21,7 +21,9 @@ class TestDiGraph(TestCase):
         self.fail()
 
     def test_get_mc(self):
-        self.fail()
+        g= self.GraphCreator(20)
+        assert g.get_mc() ==20
+        g.a
 
     def test_add_edge(self):
         g= self.GraphCreator(20)
@@ -64,4 +66,14 @@ class TestDiGraph(TestCase):
         g = DiGraph()
         for i in range(0,n):
             g.add_node(i, (i,i+i/2, i**3+i-10))
+        return g
+
+    def GraphCreator1(self, n:int, e:int)->DiGraph:
+        g = DiGraph()
+        for i in range(0,n):
+            g.add_node(i, (i,i+i/2, i**3+i-10*i))
+        for i in range(0,e):
+            k=random.random()
+            j=random.random()
+            g.add_edge(k,j,k/(j+1) )
         return g

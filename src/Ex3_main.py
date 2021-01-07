@@ -1,5 +1,5 @@
 from DiGraph import DiGraph
-#from GraphAlgo import GraphAlgo
+from src.GraphAlgo import GraphAlgo
 
 
 def check():
@@ -19,9 +19,12 @@ def check():
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
     [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47]]
     """
+    print("check0:")
     check0()
-   # check1()
-    #check2()
+    print("check1:")
+    check1()
+    print("check2:")
+    check2()
 
 
 
@@ -56,6 +59,7 @@ def check1():
     """
     g_algo = GraphAlgo()  # init an empty graph - for the GraphAlgo
     file = "../data/T0.json"
+    print(file)
     g_algo.load_from_json(file)  # init a GraphAlgo from a json file
     print(g_algo.connected_components())
     print(g_algo.shortest_path(0, 3))
@@ -70,9 +74,12 @@ def check2():
       """
     g_algo = GraphAlgo()
     file = '../data/A5'
-    g_algo.load_from_json(file)
-    g_algo.get_graph().remove_edge(13, 14)
-    g_algo.save_to_json(file + "_edited")
+    bool=g_algo.load_from_json(file)
+    assert bool ==True
+    bool=g_algo.get_graph().remove_edge(13, 14)
+    assert bool ==True
+    bool=g_algo.save_to_json(file + "_edited")
+    assert bool ==True
     dist, path = g_algo.shortest_path(1, 7)
     print(dist, path)
     dist, path = g_algo.shortest_path(47, 19)
