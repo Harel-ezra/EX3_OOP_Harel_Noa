@@ -1,10 +1,14 @@
 from typing import List
-from src import GraphInterface
+from src.GraphInterface import GraphInterface
 from src.DiGraph import DiGraph
 from src.GraphAlgoInterface import GraphAlgoInterface
+from src.NodeData import NodeData
 import heapq as priorityQueue
 import math as math
 import json as json
+import matplotlib.pyplot as plt
+import random as random
+random.seed(1)
 
 class GraphAlgo(GraphAlgoInterface):
 
@@ -53,7 +57,7 @@ class GraphAlgo(GraphAlgoInterface):
                 node={"id":n.getKey()}
             listNode.insert(len(listNode), node)
 
-            for e in self.graphAlgo.all_out_edges_of_node(n.getKey()).values(): # e is a tuple (nehigbor node id, weight)
+            for e in self.graphAlgo.all_out_edges_of_node(n.getKey()).items(): # e is a tuple (nehigbor node id, weight)
                 edge={"src":n.getKey(), "w": e[1], "dest":e[0]}
                 listEdge.insert(len(listEdge), edge)
         dict["Edges"]=listEdge
@@ -91,7 +95,7 @@ class GraphAlgo(GraphAlgoInterface):
         while len(queue)!=0:
             node = priorityQueue.heappop(queue)
             if graph.get_all_v().get(node[1]).getInfo() == "x":
-                for edge in graph.all_out_edges_of_node(node[1]).values():  # tuple of pair (neighbor node id, weight))
+                for edge in graph.all_out_edges_of_node(node[1]).items():  # tuple of pair (neighbor node id, weight))
                     if graph.get_all_v().get(edge[0]).getInfo() == "x":
                         weight = node[0] + edge[1]
                         if edge[0] not in dict or dict.get(edge[0])[0] > weight:
@@ -106,7 +110,7 @@ class GraphAlgo(GraphAlgoInterface):
         for n in g.get_all_v().values():
             gr.add_node(n.getKey(), n.getLocation())
         for n in g.get_all_v().values():
-            for e in g.all_out_edges_of_node(n.getKey()).values():  # return tuple of pair (other node id, weight))
+            for e in g.all_out_edges_of_node(n.getKey()).items():  # return tuple of pair (other node id, weight))
                 gr.add_edge(e[0], n.getKey(), e[1])
         return gr
 
@@ -115,11 +119,73 @@ class GraphAlgo(GraphAlgoInterface):
             node.setInfo("x")
             node.setTag(-1)
 
+    """
+    the next method it for checking connected compennets
+    """
+    time=0 # for start time and end time for every node
+    lastTime=[] # list of tuple for the last time every node is found, sorted by the time ending
+
+    def dfs(self, node : NodeData) -> None:
+        node.setInfo('w') # 'x' is not yes start, 'w' is processing, and 'v' is done
+        self.time+=1 ## reize time of finding
+        for e in self.graphAlgo.all_out_edges_of_node(node.getKey()).items(): # e id edge(other node id, whiet)
+            n=self.graphAlgo.get_all_v()[e[0]]
+            if n.getInfo() =='x':
+                self.dfs(n)
+        self.time+=1 ## reize time of finding
+        self.lastTime.insert(len(self.lastTime), (self.time, node.getKey()))
+        node.setInfo('v')
+
     def connected_component(self, id1: int) -> list:
-        pass
+        list=self.connected_components()
+        for l in list:
+            if id1 in l:
+                return l
 
     def connected_components(self) -> List[list]:
-        pass
+        self.time=0
+        self.lastTime=[]
+        conectedList=[]
+        for node in self.graphAlgo.get_all_v().values(): # is node data
+            if node.getInfo()=='x': # mean not visited
+                self.dfs(node)
+
+        self.lastTime.sort()
+        self.lastTime.reverse()
+        tempG=self.graphAlgo
+        self.graphAlgo=self.rereverseGraph(self.graphAlgo)
+        self.time=0
+        l=self.lastTime.copy()
+        self.lastTime=[]
+        compeList = []
+
+        for key in l: # key is tuple time and key is node
+            node=self.graphAlgo.get_all_v().get(key[1])
+            if node.getInfo()=='x':
+                if len(compeList) > 0:
+                    conectedList.insert(len(conectedList), compeList)
+                compeList=[]
+                compeList.insert(len(compeList),node.getKey())
+                self.dfs(node)
+            else:
+                compeList.insert(len(compeList), node.getKey())
+
+        conectedList.insert(len(conectedList), compeList)
+
+        self.graphAlgo=tempG
+        self.clearGraph()
+        return conectedList
+
 
     def plot_graph(self) -> None:
-        pass
+        for node in self.graphAlgo.get_all_v().values():
+            if node.getLocation() is None:
+                plt.plot(random.randrange(0,100,1),random.randrange(0,100,1),'ro')
+            else:
+                g=node.getLocation()
+
+                plt.plot(g[0],g[1], 'ro')
+
+        plt.show()
+ 
+

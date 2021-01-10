@@ -4,7 +4,7 @@ class NodeData:
     """
     create  a new node data
     """
-    def __init__(self, k:int,gl=(0,0,0)):
+    def __init__(self, k:int,gl=None):
         self.key=k
         self.tag=-1
         self.info='x'
@@ -52,3 +52,6 @@ class NodeData:
 
     def getTag(self) ->int:
         return self.tag
+
+
+

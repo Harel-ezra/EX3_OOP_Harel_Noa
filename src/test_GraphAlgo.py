@@ -1,7 +1,7 @@
 from unittest import TestCase
 from src.DiGraph import DiGraph
 from src.GraphAlgo import GraphAlgo
-
+import matplotlib.pyplot as plt
 
 class TestGraphAlgo(TestCase):
 
@@ -28,6 +28,8 @@ class TestGraphAlgo(TestCase):
         g.add_node(1)
         g.add_edge(0,1,5)
         ga=GraphAlgo(g)
+        #print(ga.shortest_path(0,1))
+        #ga.load_from_json("G_10_80_0.json")
         print(ga.shortest_path(0,1))
 
     def test_dijkstra(self):
@@ -43,10 +45,17 @@ class TestGraphAlgo(TestCase):
         self.fail()
 
     def test_connected_components(self):
-        self.fail()
+        g = DiGraph()
+        g.add_node(0)
+        g.add_node(1)
+        g.add_edge(0,1,5)
+        g.add_edge(1,0,5)
+        ga=GraphAlgo(g)
+        print(ga.connected_components())
 
     def test_plot_graph(self):
-        self.fail()
+        plt.plot(1,1,"ro")
+        plt.show()
 
     def GraphCreator(self, n: int) -> DiGraph:
         g = DiGraph()

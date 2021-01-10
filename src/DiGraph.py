@@ -82,8 +82,8 @@ class DiGraph(GraphInterface):
     def add_edge(self, id1: int, id2: int, weight: float) -> bool:
         if id1 in self.graph and id2 in self.graph and id1!= id2 and weight>=0:
             if id2 not in self.neighborsSrc.get(id1):
-                self.neighborsSrc.get(id1)[id2]=(id2,weight)
-                self.neighborsDest.get(id2)[id1]=(id1,weight)
+                self.neighborsSrc.get(id1)[id2]=weight
+                self.neighborsDest.get(id2)[id1]=weight
                 self.edgeSize+=1
                 self.MC+=1
                 return True
@@ -115,15 +115,16 @@ class DiGraph(GraphInterface):
             """
     def remove_node(self, node_id: int) -> bool:
         if node_id in self.graph:
-            for key in self.neighborsDest.keys():
-                if node_id in self.neighborsDest.get(key):
-                    self.neighborsDest.get(key).pop(node_id)
+            for key in self.neighborsDest.get(node_id):
+               # if node_id in self.neighborsDest.get(key):
+                    self.neighborsSrc.get(key).pop(node_id)
                     self.edgeSize-=1
                     self.MC+=1
-            for key in self.neighborsSrc.get(node_id).keys():
-                self.neighborsDest.get(key).pop(node_id)
-                self.edgeSize -= 1
-                self.MC += 1
+            for key in self.neighborsSrc.get(node_id):
+               # if node_id in self.neighborsSrc.get(key):
+                    self.neighborsDest.get(key).pop(node_id)
+                    self.edgeSize -= 1
+                    self.MC += 1
             self.neighborsSrc.pop(node_id)
             self.neighborsDest.pop(node_id)
             self.graph.pop(node_id)

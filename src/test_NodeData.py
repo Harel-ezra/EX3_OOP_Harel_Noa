@@ -10,14 +10,13 @@ class TestNodeData(TestCase):
         assert 0 == n1.getKey(), "n1 key is 0"
         assert 1 == n2.getKey(), "n2 key is 1"
         assert n1.__str__() == "{key: 0, pos: (1, 2, 3)}"
-        print(n1)
 
 
     def test_get_location(self):
         n1=NodeData(0,(1,2,3))
         n2=NodeData(1)
         assert (1,2,3) == n1.getLocation()
-        assert (0,0,0) == n2.getLocation()
+        assert None == n2.getLocation()
 
     def test_set_location(self):
         n1=NodeData(0,(1,2,3))
