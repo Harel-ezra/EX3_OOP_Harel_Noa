@@ -4,6 +4,7 @@ from src.NodeData import NodeData
 
 
 class TestNodeData(TestCase):
+
     def test_get_key(self):
         n1=NodeData(0,(1,2,3))
         n2=NodeData(1)
@@ -46,3 +47,22 @@ class TestNodeData(TestCase):
         n1.setTag(5)
         assert 5 == n1.getTag()
 
+    def test_comper(self):
+        node1=NodeData(0)
+        node2=NodeData(0)
+        assert node1.comper(node2)
+        assert not node1.comper({123})
+        node1.setLocation((0,1,2))
+        assert not node1.comper(node2)
+        node2.setLocation((0, 1, 2))
+        assert node1.comper(node2)
+        node2.setLocation((0, 1, 3))
+        assert not node1.comper(node2)
+
+    def test__copy__(self):
+        n1=NodeData(0)
+        n2=n1.__copy__()
+        assert n1.comper(n2)
+        n1=NodeData(0,(0,1,2))
+        n2 = n1.__copy__()
+        assert n1.comper(n2)

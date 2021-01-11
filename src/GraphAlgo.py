@@ -25,12 +25,16 @@ class GraphAlgo(GraphAlgoInterface):
                     dict=json.load(file)
                     listEdge=dict.get("Edges")
                     listNode=dict.get("Nodes")
+                    self.graphAlgo=DiGraph()
 
                     for n in listNode: # n is a dict like this -{"pos": "0, 0.0, 0", "id": 0}
                         loactionStr=n.get("pos")
                         if loactionStr is not None:
                             l=loactionStr.split(",")
-                            tup = (l[0], l[1], l[2])
+                            x = (float)(l[0])
+                            y = (float)(l[1])
+                            z = (float)(l[2])
+                            tup = (x, y, z)
                         else:
                             tup=None
                         key=n.get("id")
@@ -43,7 +47,7 @@ class GraphAlgo(GraphAlgoInterface):
                     return True
             return False
         except:
-            print("can't read a graph from the file")
+            print("can't read a graph from the file:"+file_name)
 
     def save_to_json(self, file_name: str) -> bool:
         dict={}
@@ -74,13 +78,13 @@ class GraphAlgo(GraphAlgoInterface):
         list = []
         if id1 in self.graphAlgo.get_all_v() and id2 in self.graphAlgo.get_all_v():
             pathDict = self.Dijkstra(id1, self.graphAlgo)
+            self.clearGraph()
             if pathDict.get(id2) != None or id1 == id2:
                 i = id2
                 list.insert(0,id2)
                 while i != id1:
                     list.insert(0, pathDict.get(i)[2])
                     i = pathDict.get(i)[2]
-                self.clearGraph()
                 tup=(pathDict.get(id2)[0], list)
                 return tup
         return (math.inf, list)
@@ -128,7 +132,7 @@ class GraphAlgo(GraphAlgoInterface):
     def dfs(self, node : NodeData) -> None:
         node.setInfo('w') # 'x' is not yes start, 'w' is processing, and 'v' is done
         self.time+=1 ## reize time of finding
-        for e in self.graphAlgo.all_out_edges_of_node(node.getKey()).items(): # e id edge(other node id, whiet)
+        for e in self.graphAlgo.all_out_edges_of_node(node.getKey()).items(): # e id edge(other node id, weight)
             n=self.graphAlgo.get_all_v()[e[0]]
             if n.getInfo() =='x':
                 self.dfs(n)
@@ -146,6 +150,8 @@ class GraphAlgo(GraphAlgoInterface):
         self.time=0
         self.lastTime=[]
         conectedList=[]
+        if self.graphAlgo.v_size()==0:
+            return conectedList
         for node in self.graphAlgo.get_all_v().values(): # is node data
             if node.getInfo()=='x': # mean not visited
                 self.dfs(node)

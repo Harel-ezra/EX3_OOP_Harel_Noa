@@ -8,7 +8,7 @@ class NodeData:
         self.key=k
         self.tag=-1
         self.info='x'
-        self.g=gl
+        self.pos=gl
     """
     both, repr and str function is for create a string that presenting node data
     """
@@ -16,8 +16,17 @@ class NodeData:
         return self.__str__()
 
     def __str__(self) ->str:
-        s="{key: "+(str)(self.key)+", "+"pos: "+(str)(self.g)+"}"
+        s="{key: " + (str)(self.key) +", " +"pos: " + (str)(self.pos) + "}"
         return s
+
+    """
+    need it???
+    """
+    def __copy__(self)->object:
+        n=NodeData(self.key, self.pos)
+        n.setInfo(self.getInfo())
+        n.setTag(self.getTag())
+        return n
 
     """
     return a key of the node data
@@ -31,7 +40,7 @@ class NodeData:
     @return: tuple of node location
     """
     def getLocation(self) -> tuple:
-        return self.g
+        return self.pos
 
     """
     set the location for the node
@@ -39,7 +48,7 @@ class NodeData:
     """
     def setLocation(self, l:tuple) -> None:
         if l is not None:
-            self.g=l
+            self.pos=l
 
     def getInfo(self) ->str:
         return self.info
@@ -52,6 +61,15 @@ class NodeData:
 
     def getTag(self) ->int:
         return self.tag
+
+    """
+        compere between 2 node
+        """
+    def comper(self, n:object)-> bool:
+        if self.__class__ ==n.__class__:
+            if self.key ==n.getKey() and self.pos==n.getLocation():
+                return True
+        return False
 
 
 

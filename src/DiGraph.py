@@ -20,11 +20,29 @@ class DiGraph(GraphInterface):
         return self.__str__()
 
     def __str__(self)->str:
-        s=""
+        s="{Node:"
         for n in self.graph.values():
             s+=n.__str__()
             s+=" "
+        s+="}"
+        s+=" {Edge:"
+        for n in self.neighborsSrc: # n is a key of node id
+            for e in self.neighborsSrc.get(n).items(): # e is a tuple of (other node id, w)
+                se="{src:"+(str)(n)+ ", dest:"+(str)(e[0])+", w:"+(str)(e[1])
+                s+=se
+        s+="}"
         return s
+    """
+    return a copy of this graph
+    """
+    def __copy__(self)->GraphInterface:
+        g=DiGraph()
+        g.graph=self.graph.copy()
+        g.neighborsSrc=self.neighborsSrc.copy()
+        g.neighborsDest=self.neighborsDest.copy()
+        g.edgeSize=self.e_size()
+        g.mc=self.MC
+        return g
 
     """
             Returns the number of vertices in this graph
@@ -148,6 +166,32 @@ class DiGraph(GraphInterface):
                     self.edgeSize-=1
                     self.MC+=1
                     return True
+        return False
+
+    """
+    compere between 2 graph
+    """
+    def comper(self, g:GraphInterface)->bool:
+        if self.v_size()==g.v_size() and self.e_size() == g.e_size():
+            for node in g.get_all_v().values():
+                if node.getKey() not in self.graph:
+                    return False
+                else:
+                    if not node.comper(self.graph.get(node.getKey())):
+                        return False
+                for e in g.all_in_edges_of_node(node.getKey()).items(): # e is tuple (other noe id, w)
+                    if e[0] not in self.neighborsDest.get(node.getKey()):
+                        return False
+                    else:
+                        if e[1] != self.neighborsDest.get(node.getKey()).get(e[0]):
+                            return False
+                for e in g.all_out_edges_of_node(node.getKey()).items(): # e is tuple (other noe id, w)
+                    if e[0] not in self.neighborsSrc.get(node.getKey()):
+                        return False
+                    else:
+                        if e[1] != self.neighborsSrc.get(node.getKey()).get(e[0]):
+                            return False
+            return True
         return False
 
 
