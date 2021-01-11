@@ -129,16 +129,18 @@ class GraphAlgo(GraphAlgoInterface):
     time=0 # for start time and end time for every node
     lastTime=[] # list of tuple for the last time every node is found, sorted by the time ending
 
-    def dfs(self, node : NodeData) -> None:
+    def dfs(self, node : NodeData) -> list:
+        list=[node.getKey()]
         node.setInfo('w') # 'x' is not yes start, 'w' is processing, and 'v' is done
         self.time+=1 ## reize time of finding
         for e in self.graphAlgo.all_out_edges_of_node(node.getKey()).items(): # e id edge(other node id, weight)
             n=self.graphAlgo.get_all_v()[e[0]]
             if n.getInfo() =='x':
-                self.dfs(n)
+                list+=self.dfs(n)
         self.time+=1 ## reize time of finding
         self.lastTime.insert(len(self.lastTime), (self.time, node.getKey()))
         node.setInfo('v')
+        return list
 
     def connected_component(self, id1: int) -> list:
         list=self.connected_components()
@@ -168,16 +170,13 @@ class GraphAlgo(GraphAlgoInterface):
         for key in l: # key is tuple time and key is node
             node=self.graphAlgo.get_all_v().get(key[1])
             if node.getInfo()=='x':
-                if len(compeList) > 0:
-                    conectedList.insert(len(conectedList), compeList)
-                compeList=[]
-                compeList.insert(len(compeList),node.getKey())
-                self.dfs(node)
-            else:
-                compeList.insert(len(compeList), node.getKey())
-
-        conectedList.insert(len(conectedList), compeList)
-
+                #if len(compeList) > 0:
+                 #   conectedList.insert(len(conectedList), compeList)
+                #compeList=[]
+                conectedList.insert(len(compeList),self.dfs(node))
+            #else:
+             #   compeList.insert(len(compeList), node.getKey())
+        #conectedList.insert(len(conectedList), compeList)
         self.graphAlgo=tempG
         self.clearGraph()
         return conectedList

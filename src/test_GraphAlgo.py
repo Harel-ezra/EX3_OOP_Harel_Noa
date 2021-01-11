@@ -105,7 +105,16 @@ class TestGraphAlgo(TestCase):
         assert g.comper(ga1.rereverseGraph(g1))
 
     def test_connected_component(self):
-        self.fail()
+        g = self.graphForTest1()
+        ga = GraphAlgo(g)
+        print(ga.connected_components())
+        assert ga.connected_component(5)== [5,6]
+        assert 0 in ga.connected_component(2)
+        assert 9 in ga.connected_component(8)
+        assert 0 not in ga.connected_component(3)
+        g.add_edge(3,0,1)
+        assert 0 in ga.connected_component(3)
+        assert  len(ga.connected_component(3))==5
 
     def test_connected_components(self):
         g = DiGraph()
@@ -120,12 +129,22 @@ class TestGraphAlgo(TestCase):
         g.add_node(2)
         g.add_edge(0,2,1)
         print(ga.connected_components())
+        assert len(ga.connected_components()) ==2
 
         g=self.graphForTest1()
         ga=GraphAlgo(g)
         print(ga.connected_components())
+        assert len(ga.connected_components()) ==4
 
-
+        g.add_edge(3,0,1)
+        print(ga.connected_components())
+        assert len(ga.connected_components()) == 3
+        g.add_edge(5,4,1)
+        print(ga.connected_components())
+        assert len(ga.connected_components()) == 2
+        g.add_edge(6, 7, 1)
+        print(ga.connected_components())
+        assert len(ga.connected_components()) == 1
 
 
     def test_plot_graph(self):
