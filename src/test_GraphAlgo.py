@@ -234,3 +234,10 @@ class TestGraphAlgo(TestCase):
         graph = GraphAlgo()
         graph.load_from_json("../data/G_1000_8000_1.json")
         print("components ", graph.connected_components())
+
+    def test_shortestPathCompare1(self):
+        """Runs the shortestPath method from this project's algo, and runs it also through
+        netWorkX, to compare results and performance. runs on graph: G_10_80_1.json """
+        algo=GraphAlgo();
+        print("reading from file...", algo.load_from_json("../data/G_10_80_1.json"))
+        print("shortestPath is ", algo.shortest_path(0, 4))
