@@ -43,10 +43,6 @@ edgeSize - number of edges in the graph
 MC - counts changes in the graph
 
 
-
-
-
-
 Methods:
 
 def __repr__(self): Creates a string that represents a graph
