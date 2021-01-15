@@ -204,7 +204,7 @@ class TestGraphAlgo(TestCase):
 
     def test_Compare_shortestPath(self):
         """
-        Was used compers our shortest_path method
+        Was used compress our shortest_path method
         was tested on all JSON files, all compere results in WIKI
         not part of tests
          """
