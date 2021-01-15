@@ -5,16 +5,16 @@ from src.NodeData import NodeData
 class DiGraph(GraphInterface):
 
     """
-        init new graph
+        Init a new graph
         """
     def __init__(self):
         self.graph={}
         self.neighborsSrc={}
-        self.neighborsDest={}  # all is node that this node is there dest
+        self.neighborsDest={}  # all the nodes that this node is their dest
         self.edgeSize=0
         self.MC=0
     """
-        string function
+        Creats a string
         """
     def __repr__(self):
         return self.__str__()
@@ -33,7 +33,7 @@ class DiGraph(GraphInterface):
         s+="}"
         return s
     """
-    return a copy of this graph
+    Return a copy of this graph
     """
     def __copy__(self)->GraphInterface:
         g=DiGraph()
@@ -55,11 +55,12 @@ class DiGraph(GraphInterface):
             Returns the number of edges in this graph
             @return: The number of edges in this graph
             """
+
     def e_size(self) -> int:
         return self.edgeSize
 
-    """return a dictionary of all the nodes in the Graph, each node is represented using a pair
-             (node_id, node_data)
+    """return a dictionary of all the nodes in the Graph, 
+    each node is represented using a pair (node_id, node_data)
             """
     def get_all_v(self) -> dict:
         return self.graph
@@ -82,7 +83,7 @@ class DiGraph(GraphInterface):
 
     """
            Returns the current version of this graph,
-           on every change in the graph state - the MC should be increased
+           on every change in the graph state the MC increases
            @return: The current version of this graph.
            """
     def get_mc(self) -> int:

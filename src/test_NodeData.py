@@ -4,6 +4,9 @@ from src.NodeData import NodeData
 
 
 class TestNodeData(TestCase):
+    """
+               Tests on all methods in NodeData
+                """
 
     def test_get_key(self):
         n1=NodeData(0,(1,2,3))
