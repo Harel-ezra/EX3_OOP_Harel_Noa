@@ -11,7 +11,7 @@ from networkx.algorithms.shortest_paths.weighted import single_source_dijkstra
 class TestGraphAlgo(TestCase):
     """
            Tests on all methods in GraphAlgo
-            """
+    """
 
     def test_get_graph(self):
         g = DiGraph()
